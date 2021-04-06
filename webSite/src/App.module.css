@@ -1,0 +1,145 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    flex-wrap: wrap;
+    background-color: #ebebeb;
+    margin: 0 auto;
+    width: 100vw;
+    min-height: 100vh;
+    overflow: auto;
+    flex-direction: column;
+}
+
+.outer{
+    width: 100vw;
+    height: 100vh;
+}
+
+.infoCard{
+    width: 60vw;
+    border-radius: 3vw;
+    background: white;
+    box-shadow: 0 0 5px rgba(0,0,0,.3);
+    margin-top: 10vh;
+    padding: 4vw;
+
+}
+.card{
+    width: 30vw;
+    background: white;
+    border-radius: 3vw;
+    padding: 4vw;
+    box-shadow: 0 0 5px rgba(0,0,0,.3);
+}
+
+.loginTitle{
+    font-size: 2.5rem;
+    color: #555;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: left;
+    width: 100%;
+    display: block;
+    padding-bottom: 4vh;
+}
+
+.label{
+    font-size: 1.5rem;
+    color: #555;
+    line-height: 1.4;
+    text-transform: uppercase;
+    margin-bottom: 10vh;
+}
+.inputContainer{
+    width: 100%;
+    position: relative;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+.input{
+    color: #555;
+    line-height: 1.2;
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    background: 0 0;
+    height: 55px;
+    padding: 0 25px;
+    border: 1px #E6E6E6 solid ;
+}
+
+.image{
+    display: block;
+    width: 8vw;
+    margin-bottom: 1vh;
+}
+.image:hover{
+    cursor: pointer;
+}
+
+.login{
+    margin: 0 auto;
+    margin-top: 3vh;
+    width: 80%;
+    font-size: 1rem;
+    color: #fff;
+    line-height: 1.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1vw;
+    height: 6vh;
+    background-color: #333;
+    border-radius: 2vw;
+    transition: all .4s;
+    outline: none!important;
+    border: none;
+}
+.login:hover{
+
+    background: #57B846;
+}
+.errorMsg{
+    padding: 1vh;
+    text-align: center;
+    color: red;
+}
+.infoMsg{
+    padding: 1vh;
+    text-align: center;
+    color: dodgerblue;
+}
+
+.rankTable{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.rankTable thead tr {
+    background-color:#333;
+    color: #ffffff;
+    text-align: left;
+}
+
+
+.rankTable th,
+.rankTable td {
+    padding: 12px 15px;
+}
+.rankTable tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.rankTable tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.rankTable tbody tr:last-of-type {
+    border-bottom: 2px solid #333;
+}
+

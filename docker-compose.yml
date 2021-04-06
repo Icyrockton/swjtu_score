@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  backend:
+    build:
+      context: ./nodejs
+      dockerfile: Dockerfile
+    container_name: bgnodejs
+    ports:
+      - "3010:3010"
+    networks:
+      - backendnetwork
+      - frontendnetwork
+    depends_on:
+      - mysqlDB
+  mysqlDB:
+    image: mysql
+    container_name: bgmysql
+    volumes:
+    - ./mysql/swjtu.sql:/docker-entrypoint-initdb.d/dump.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: swjtucs!!!
+      MYSQL_DATABASE: swjtucs
+    expose:
+      - 3306
+    networks:
+      - backendnetwork
+  webSite:
+    image: swjtu-website
+    build:
+      context: ./webSite
+      dockerfile: Dockerfile
+    container_name: website
+    ports:
+    - "3000:80"
+    networks:
+      - frontendnetwork
+
+networks:
+  backendnetwork :
+  frontendnetwork :
+
+

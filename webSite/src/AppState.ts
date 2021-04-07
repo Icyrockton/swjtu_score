@@ -51,10 +51,18 @@ export class AppState {
     }
 
 
-    async login(userName: string, password: string, verifyCode: string) { //登录
-        this.loading  = true
-        this.errorMsg = null
-        this.loadingMsg ="登录中"
+    async login(userName: string, password: string, verifyCode: string, accept: boolean) { //登录
+        if (!accept){
+            runInAction(()=>{
+                this.errorMsg = "您未同意本网站条款，禁止使用"
+            })
+            return
+        }
+        runInAction(()=>{
+            this.loading  = true
+            this.errorMsg = null
+            this.loadingMsg ="登录中"
+        })
         if (this.sessionID) {
             const response = await useApi.login(this.sessionID, userName, password, verifyCode);
             console.log(response)

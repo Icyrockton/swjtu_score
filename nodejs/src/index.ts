@@ -20,7 +20,7 @@ app.use(function (req, res, next) {
 
 //首页
 app.get("/", (request, response) => {
-    response.send("haha")
+    response.send("connect successful")
 })
 
 

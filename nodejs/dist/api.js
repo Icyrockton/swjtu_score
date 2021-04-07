@@ -43,6 +43,7 @@ class Api {
             password: "swjtucs!!!"
         });
         this._jsessionIDLoaded = false;
+        console.log('version-1.0');
         this._axios.defaults.headers.common["Referer"] = "http://jwc.swjtu.edu.cn/service/login.html";
         //this.setUpInterceptors() //设置拦截器
     }
@@ -93,6 +94,7 @@ class Api {
         postData.append("returnUrl", "");
         postData.append("area", "");
         postData.append("returnType", "");
+        console.log(userName, "登录中...");
         const axiosResponse = await this._axios.post("vatuu/UserLoginAction", postData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

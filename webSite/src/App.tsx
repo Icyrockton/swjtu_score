@@ -1,8 +1,6 @@
 import React, {useState} from 'react'
 import {observer} from "mobx-react-lite";
 import {AppState} from "./AppState";
-import 'antd/dist/antd.css';
-import {Table} from "antd/es";
 import classes from "./App.module.css"
 
 type AppProps = {
@@ -14,7 +12,7 @@ const App = observer<AppProps>(props => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [verifyCode, setVerifyCode] = useState("");
-
+    const [accept,setAccept] = useState(false);
     const columns = [
         {
             title: '课程名称',
@@ -38,12 +36,7 @@ const App = observer<AppProps>(props => {
         }
     ];
 
-    const tableContent = () => {
-        if (uiState.score) {
-            return <Table dataSource={uiState.score} columns={columns} pagination={false}/>
-        } else
-            return <h1>暂无数据</h1>
-    }
+
 
     const errorMsg = () => {
         if (uiState.errorMsg)
@@ -51,16 +44,16 @@ const App = observer<AppProps>(props => {
         else return <></>
     }
 
-    const infoMsg=()=>{
+    const infoMsg = () => {
         if (uiState.loading)
             return <h3 className={classes.infoMsg}>{uiState.loadingMsg}</h3>
         else
-            return  <></>
+            return <></>
     }
 
-    const scoreTableContent=()=>{
-        return  uiState.score?.map(score=>(
-            <tr>
+    const scoreTableContent = () => {
+        return uiState.score?.map((score,index) => (
+            <tr key={`score-${index}`}>
                 <td>{score.course_name}</td>
                 <td>{score.daily_score}</td>
                 <td>{score.final_exam}</td>
@@ -69,7 +62,7 @@ const App = observer<AppProps>(props => {
         ))
     }
 
-    const scoreTable = ()=>{
+    const scoreTable = () => {
         return (
             <table className={classes.rankTable}>
                 <thead>
@@ -87,36 +80,36 @@ const App = observer<AppProps>(props => {
         )
     }
 
-    const rankTableContent =()=>{
-        let index = 1
-       return  uiState.ranks?.map(rank=>(
-            <tr>
-                <td>{index ++ }</td>
+    const rankTableContent = () => {
+        let rankIndex = 1
+        return uiState.ranks?.map((rank,index) => (
+            <tr key={`rank-${index}`}>
+                <td>{rankIndex++}</td>
                 <td>{rank.studentID}</td>
                 <td>{rank.averageScore}</td>
             </tr>
         ))
     }
-    const rankTable = ()=>{
+    const rankTable = () => {
         return (
             <table className={classes.rankTable}>
                 <thead>
-                    <tr>
-                        <th>排名</th>
-                        <th>学号</th>
-                        <th>平均分</th>
-                    </tr>
+                <tr>
+                    <th>排名</th>
+                    <th>学号</th>
+                    <th>平均分</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {rankTableContent()}
+                {rankTableContent()}
                 </tbody>
             </table>
         )
     }
 
-    const info=()=>{
-        if (uiState.showInfo){
-            return  (
+    const info = () => {
+        if (uiState.showInfo) {
+            return (
                 <div className={classes.infoCard}>
                     <h1>搜索到的课程总数{uiState.averageScore?.count}</h1>
                     <h1>课程总分{uiState.averageScore?.total}</h1>
@@ -125,8 +118,7 @@ const App = observer<AppProps>(props => {
                     {scoreTable()}
                 </div>
             )
-        }
-        else
+        } else
             return <></>
     }
     return (
@@ -140,28 +132,49 @@ const App = observer<AppProps>(props => {
                                 系统
                             </span>
                             <span className={classes.label}>
-                                账号
+                                学号
                             </span>
                             <div className={classes.inputContainer}>
-                                <input value={userName} onChange={event => setUserName(event.target.value)}  className={classes.input} type="text" name="username"/>
+                                <input value={userName} onChange={event => setUserName(event.target.value)}
+                                       className={classes.input} type="text" name="username"/>
                             </div>
-                            <span  className={classes.label} >
+                            <span className={classes.label}>
                                 密码
                             </span>
                             <div className={classes.inputContainer}>
-                                <input value={password} onChange={event => setPassword(event.target.value)} className={classes.input} type="password" name="password"/>
+                                <input value={password} onChange={event => setPassword(event.target.value)}
+                                       className={classes.input} type="password" name="password"/>
                             </div>
 
-                            <img className={classes.image} src={`data:image/png;base64,${uiState.imageBASE64}`} onClick={()=>uiState.refreshImage()}/>
+
 
                             <span className={classes.label}>
                                 验证码
                             </span>
-                            <div className={classes.inputContainer}>
-                                <input  value={verifyCode} onChange={event => setVerifyCode(event.target.value)} className={classes.input} type="text" name="verifyCode"/>
+                            <div className={classes.verifyContainer}>
+                                <img className={classes.image} src={`data:image/png;base64,${uiState.imageBASE64}`}
+                                     onClick={() => uiState.refreshImage()}/>
+                                <input value={verifyCode} onChange={event => setVerifyCode(event.target.value)}
+                                       className={classes.input} type="text" name="verifyCode"/>
                             </div>
 
-                            <button type={"button"} className={classes.login} onClick={()=>{uiState.login(userName,password,verifyCode)}}>
+                            <div>
+                                <input className={classes.inpCbx} id="cbx" type="checkbox" style={{display: "none"}} checked={accept} onChange={event => setAccept(event.target.checked)}/>
+                                <label className={classes.cbx} htmlFor="cbx"><span>
+                                <svg width="12px" height="10px" viewBox="0 0 12 10">
+                             <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                            </svg></span><span>我同意以下条款</span></label>
+                            </div>
+
+                            将(学号,课程平均分)上传到数据库中,进行排名
+                            <br/>
+                            数据只会保存平均分,其它详细课程数据不会上传
+                            <br/>
+                            <a href={"https://github.com/Icyrockton/swjtu_score"}>Github开源地址</a>
+
+                            <button type={"button"} className={classes.login} onClick={() => {
+                                uiState.login(userName, password, verifyCode,accept)
+                            }}>
                                 登录
                             </button>
                             {

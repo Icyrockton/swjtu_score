@@ -27,15 +27,19 @@ export interface RankInfo {
 
 export class Api {
     private _axios = axios.create({
-        baseURL: "http://localhost:3010/",
+        baseURL: "http://121.4.151.26:3010",
     })
 
     async fetchImageBase64(sessionID: string) {
-        return (await this._axios.get("/image", {
+        console.log('刷新图片')
+        const axiosResponse = await this._axios.get("/image", {
             params: {
                 sessionID: sessionID
             }
-        })).data
+        });
+        console.log(axiosResponse.status)
+        console.log(axiosResponse.statusText)
+        return axiosResponse.data
     }
 
     async login(sessionID: string, userName: string, password: string, verifyCode: string) {

@@ -2,9 +2,6 @@ version: "3.9"
 services:
   backend:
     image: icyrockton/bgnodejs
-    build:
-      context: ./nodejs
-      dockerfile: Dockerfile
     container_name: bgnodejs
     ports:
       - "3010:3010"
@@ -27,9 +24,6 @@ services:
       - backendnetwork
   webSite:
     image: icyrockton/swjtu-website
-    build:
-      context: ./webSite
-      dockerfile: Dockerfile
     container_name: website
     ports:
     - "3000:80"

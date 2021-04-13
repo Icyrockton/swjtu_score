@@ -62,39 +62,52 @@ export class Api {
 
 
     async getVerifyImage(sessionID: string) { //获取验证码
-        const axiosResponse = await this._axios.get("vatuu/GetRandomNumberToJPEG", {
-            responseType: "arraybuffer",
-            params: {
-                currentTime: Date.now()
-            },
-            headers: {
-                "Cookie": sessionID,
-            }
-        });
+        try {
 
-        return Buffer.from(axiosResponse.data, 'binary').toString('base64')
+            const axiosResponse = await this._axios.get("vatuu/GetRandomNumberToJPEG", {
+                responseType: "arraybuffer",
+                params: {
+                    currentTime: Date.now()
+                },
+                headers: {
+                    "Cookie": sessionID,
+                }
+            });
+            return Buffer.from(axiosResponse.data, 'binary').toString('base64')
+        }
+        catch (e) {
+            console.log('获取图片发生错误',e)
+        }
+        finally {
+
+        }
     }
 
     async login(sessionID: string, userName: string, password: string, verifyCode: string) { //登录
-        let postData = new URLSearchParams();
-        postData.append("username", userName)
-        postData.append("password", password)
-        postData.append("ranstring", verifyCode)
-        postData.append("url", "http://jwc.swjtu.edu.cn/index.html")
-        postData.append("returnUrl", "")
-        postData.append("area", "")
-        postData.append("returnType", "")
-        console.log(userName,"登录中...")
-        const axiosResponse = await this._axios.post<LoginResponse>("vatuu/UserLoginAction", postData, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                "Cookie": sessionID,
-            }
-        })
-        //返回的数据
-        const data = axiosResponse.data;
-        await this.afterLogin(sessionID)
-        return data
+       try {
+           let postData = new URLSearchParams();
+           postData.append("username", userName)
+           postData.append("password", password)
+           postData.append("ranstring", verifyCode)
+           postData.append("url", "http://jwc.swjtu.edu.cn/index.html")
+           postData.append("returnUrl", "")
+           postData.append("area", "")
+           postData.append("returnType", "")
+           console.log(userName,"登录中...")
+           const axiosResponse = await this._axios.post<LoginResponse>("vatuu/UserLoginAction", postData, {
+               headers: {
+                   'Content-Type': 'application/x-www-form-urlencoded',
+                   "Cookie": sessionID,
+               }
+           })
+           //返回的数据
+           const data = axiosResponse.data;
+           await this.afterLogin(sessionID)
+           return data
+       }
+       catch (e){
+           console.log(`${userName}登录超时`)
+       }
     }
 
     async afterLogin(sessionID: string) {  //登录之后需要进入该网页，才能进行下一步操作
@@ -116,33 +129,38 @@ export class Api {
 
     async getAllScore(sessionID: string) {
 
-        const axiosResponse = await this._axios.get("vatuu/StudentScoreInfoAction", {
-            params: {
-                "setAction": "studentScoreQuery",
-                "viewType": "studentScore",
-                "orderType": "submitDate",
-                "orderValue": "desc",
-            },
-            headers: {
-                "Cookie": sessionID,
-            }
-        });
-
-        const html = axiosResponse.data as string;
-        const root = parse(html);
         try {
-            const selector = root.querySelector("#table3").querySelectorAll("tr");
-            const data: ScoreDetail [] = []
-            for (let i = 1; i < selector.length; i++) {
-                const row = selector[i];
-                const col = row.querySelectorAll("td") as HTMLElement[];
-                data.push(Api.parseRow(col))
-            }
-            return data
-        } catch (e) {
-            return []
-        }
+            const axiosResponse = await this._axios.get("vatuu/StudentScoreInfoAction", {
+                params: {
+                    "setAction": "studentScoreQuery",
+                    "viewType": "studentScore",
+                    "orderType": "submitDate",
+                    "orderValue": "desc",
+                },
+                headers: {
+                    "Cookie": sessionID,
+                }
+            });
 
+            const html = axiosResponse.data as string;
+            const root = parse(html);
+            try {
+                const selector = root.querySelector("#table3").querySelectorAll("tr");
+                const data: ScoreDetail [] = []
+                for (let i = 1; i < selector.length; i++) {
+                    const row = selector[i];
+                    const col = row.querySelectorAll("td") as HTMLElement[];
+                    data.push(Api.parseRow(col))
+                }
+                return data
+            } catch (e) {
+                return []
+            }
+
+        }
+        catch (e) {
+            console.log(`${sessionID}获取成绩超时`)
+        }
     }
 
     private static parseRow(col: HTMLElement[]) {

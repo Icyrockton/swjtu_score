@@ -96,7 +96,7 @@ app.get("/insertLogin" ,(request,response)=>{
     })
 })
 app.listen(3010, () => {
-    console.log('服务器启动')
+    console.log('服务器启动 ver 4月13日')
 })
 
 

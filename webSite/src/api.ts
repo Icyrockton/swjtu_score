@@ -7,17 +7,17 @@ interface LoginResponse {
 
 export interface ScoreDetail {
     key: string,
-    code: String,//代码
-    course_name: String,//课程名称
-    class_number: String,//班号
-    property: String,//性质 必修/选修
-    score: String,//成绩
-    final_exam: String,//期末
-    daily_score: String,//平时
-    credit: String,//学分
-    teacher_name: String,//教师
-    academic_year: String,//学年
-    semester: String//学期
+    code: string,//代码
+    course_name: string,//课程名称
+    class_number: string,//班号
+    property: string,//性质 必修/选修
+    score: string,//成绩
+    final_exam: string,//期末
+    daily_score: string,//平时
+    credit: string,//学分
+    teacher_name: string,//教师
+    academic_year: string,//学年
+    semester: string//学期
 }
 
 export interface RankInfo {

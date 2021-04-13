@@ -175,9 +175,10 @@ export class Api {
         await this.checkLogin(sessionID)
         let numberScore = Number(averageScore)
         try {
-            const data = await this._mysqlConnection.query('insert ignore into `score` values (?,?)', [studentID, numberScore]);
+            const data = await this._mysqlConnection.query('insert  into `score` values (?,?) on duplicate key update `averageScore` = ? ', [studentID, numberScore,numberScore]);
             return data
         } catch (e) {
+            console.log(`${studentID}插入成绩错误`)
             if (e.code == 1062) {
                 console.log(`${studentID}重复插入`)
             }

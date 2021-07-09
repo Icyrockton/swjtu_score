@@ -123,7 +123,6 @@ export class AppState {
     private calculateAverage(scores: ScoreDetail[]) {
         let sum = 0
         let count = 0
-
         let map = new Map<string, number>()
         scores.forEach(score => {
                 const find = AppState.COURSE.find(value => score.course_name == value);
@@ -152,7 +151,7 @@ export class AppState {
             average: Number((sum / count).toFixed(2))
         } as AverageInfo
 
-        useApi.insertToRankDB(this.sessionID!, this._studentID!, data.average)
+        useApi.insertToRankDB(this.sessionID!, this._studentID!, data.average,count)
         return data
     }
 

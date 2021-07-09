@@ -190,11 +190,15 @@ class Api {
         let sqlData = await this._mysqlConnection.query('select * from `score` order by `averageScore` desc ');
         return sqlData[0];
     }
-    async insertRankToDB(sessionID, studentID, averageScore) {
-        await this.checkLogin(sessionID);
+    async insertRankToDB(sessionID, studentID, averageScore, detectedCourse) {
+        const isLogin = await this.checkLogin(sessionID);
+        if (!isLogin) {
+            return {};
+        }
         let numberScore = Number(averageScore);
+        let numberDetectedCourse = Number(detectedCourse);
         try {
-            const data = await this._mysqlConnection.query('insert  into `score` values (?,?) on duplicate key update `averageScore` = ? ', [studentID, numberScore, numberScore]);
+            const data = await this._mysqlConnection.query('insert  into `score` values (?,?,?) on duplicate key update `averageScore` = ? ', [studentID, numberScore, numberDetectedCourse]);
             return data;
         }
         catch (e) {

@@ -18,7 +18,6 @@ export class Api {
         user: "root",
         database: "swjtucs",
         password: "swjtucs!!!"
-
     });
 
     constructor() {
@@ -189,14 +188,17 @@ export class Api {
         return sqlData[0]
     }
 
-    async insertRankToDB(sessionID: string, studentID: string, averageScore: string) {
-        await this.checkLogin(sessionID)
+    async insertRankToDB(sessionID: string, studentID: string, averageScore: string,detectedCourse : string) {
+         await this.checkLogin(sessionID);
         let numberScore = Number(averageScore)
+        let numberDetectedCourse = Number(detectedCourse)
         try {
-            const data = await this._mysqlConnection.query('insert  into `score` values (?,?) on duplicate key update `averageScore` = ? ', [studentID, numberScore,numberScore]);
+            const data = await this._mysqlConnection.query
+            ('insert  into `score` values (?,?,?) on duplicate key update `averageScore` = ? , `detectedCourse` = ? ', [studentID, numberScore,numberDetectedCourse,averageScore,detectedCourse]);
             return data
         } catch (e) {
             console.log(`${studentID}插入成绩错误`)
+            console.log(e)
             if (e.code == 1062) {
                 console.log(`${studentID}重复插入`)
             }

@@ -57,7 +57,8 @@ app.get("/insertRank", (request, response) => {
     const studentID = request.query["studentID"];
     const averageScore = request.query["averageScore"];
     const sessionID = request.query["sessionID"];
-    api.insertRankToDB(sessionID, studentID, averageScore).then(() => {
+    const detectedCourse = request.query["detectedCourse"];
+    api.insertRankToDB(sessionID, studentID, averageScore, detectedCourse).then(() => {
         response.send("插入成功");
     });
 });
@@ -68,5 +69,5 @@ app.get("/insertLogin", (request, response) => {
     });
 });
 app.listen(3010, () => {
-    console.log('服务器启动 ver 4月13日');
+    console.log('服务器启动 ver 7月9日');
 });

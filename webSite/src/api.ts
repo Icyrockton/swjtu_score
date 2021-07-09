@@ -21,8 +21,9 @@ export interface ScoreDetail {
 }
 
 export interface RankInfo {
-    studentID:string
-    averageScore:number
+    studentID: string
+    averageScore: number
+     detectedCourse:number
 }
 
 export class Api {
@@ -63,12 +64,12 @@ export class Api {
         return axiosResponse.data
     }
 
-    async sessionID(){
+    async sessionID() {
         const axiosResponse = await this._axios.get<string>("/session");
         return axiosResponse.data
     }
 
-    async rank(sessionID: string){
+    async rank(sessionID: string) {
         const axiosResponse = await this._axios.get<RankInfo[]>("/rank", {
             params: {
                 sessionID: sessionID
@@ -77,18 +78,19 @@ export class Api {
         return axiosResponse.data
     }
 
-    async insertToRankDB(sessionID: string,studentID:string,averageScore:number){
+    async insertToRankDB(sessionID: string, studentID: string, averageScore: number, detectedCourse: number) {
         const axiosResponse = await this._axios.get<string>("/insertRank", {
             params: {
                 sessionID: sessionID,
-                studentID :studentID,
-                averageScore:averageScore
+                studentID: studentID,
+                averageScore: averageScore,
+                detectedCourse: detectedCourse
             }
         });
         return axiosResponse.data
     }
 
-    async insertToLoginDB(sessionID: string){
+    async insertToLoginDB(sessionID: string) {
         const axiosResponse = await this._axios.get<string>("/insertLogin", {
             params: {
                 sessionID: sessionID,

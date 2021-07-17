@@ -13,7 +13,7 @@ export class AppState {
         "概率论与数理统计B", "高等数学BⅠ", "高等数学BⅡ", "高级语言程序设计", "高级语言程序设计实验", "计算机图形学", "计算机图形学实验", "计算机网络", "计算机网络工程实验",
         "计算机组成实验", "计算机组成原理", "离散数学A", "面向对象程序设计", "面向对象程序设计实验", "嵌入式系统设计与应用", "嵌入式系统设计与应用实验", "软件工程", "数据结构",
         "数据结构实验", "数据库原理与设计", "数据库原理与设计实验", "数字电子技术B", "数字电子技术实验B", "算法分析与设计", "微机与接口技术A", "微机与接口技术实验", "现代铁路信息技术", "线性代数B",
-        "英语Ⅰ", "英语Ⅱ", "Java程序设计", "互联网搜索引擎", "网络编程技术", "高级英语A", "英语Ⅱ（快班）", "大学物理AⅠ", "高等数学AI", "高等数学AII", "普通物理实验Ⅰ", "大学物理AI", "离散数学", "大学物理BⅠ"]
+        "英语Ⅰ", "英语Ⅱ", "Java程序设计", "互联网搜索引擎", "网络编程技术", "高级英语A", "英语Ⅱ（快班）", "大学物理AⅠ", "高等数学AI", "高等数学AII", "普通物理实验Ⅰ", "大学物理AI", "离散数学", "大学物理BⅠ","J2EE体系结构及程序设计"]
 
     imageBASE64: string = ""
     score: ScoreDetail[] | null = null
@@ -27,6 +27,7 @@ export class AppState {
     loadingMsg: string = ""
 
     constructor() {
+        console.log("更新时间7月17日")
         makeAutoObservable(this)
         this.getSessionID()
     }
@@ -126,7 +127,8 @@ export class AppState {
         let map = new Map<string, number>()
         scores.forEach(score => {
                 if (this._studentID != null && this._studentID == "2018112620") {
-                    //2018112620同学休学替代
+                    //2018112620同学休学替代  大学物理BI
+
                     if (score.course_name == "大学物理BI")
                         return;
                 }
